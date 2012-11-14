@@ -4,9 +4,13 @@ default[:backup][:name] = "server_backup"
 default[:backup][:description] = "a chef generated server backup"
 
 
-default[:backup][:database][:username] = 'admin_user'
-default[:backup][:database][:password] = 'admin_password'
-default[:backup][:database][:databases] = ['test_database', 'test_db2']
+default[:backup][:mysql_database][:username] = 'admin_user'
+default[:backup][:mysql_database][:password] = 'admin_password'
+default[:backup][:mysql_database][:databases] = ['test_database', 'test_db2']
+
+default[:backup][:psql_database][:username] = 'admin_user'
+default[:backup][:psql_database][:password] = 'admin_password'
+default[:backup][:psql_database][:databases] = ['test_database', 'test_db2']
 
 
 default[:backup][:s3][:aws_access_key] = File.read("/home/#{default[:backup][:backup_user]}/.aws/access_key").gsub(/\\n/, "")

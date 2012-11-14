@@ -1,12 +1,21 @@
 Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
 
 
-  <% @config[:database][:databases].each do |database| %>
+  <% @config[:mysql_database][:databases].each do |database| %>
   database MySQL do |database|
     database.name               = '<%= database %>'
-    database.username           = '<%= @config[:database][:username] %>'
-    database.password           = '<%= @config[:database][:password] %>'
+    database.username           = '<%= @config[:mysql_database][:username] %>'
+    database.password           = '<%= @config[:mysql_database][:password] %>'
     database.additional_options = ['--single-transaction', '--quick']
+  end
+  <% end %>
+
+  <% @config[:psql_database][:databases].each do |database| %>
+  database MySQL do |database|
+    database.name               = '<%= database %>'
+    database.username           = '<%= @config[:psql_database][:username] %>'
+    database.password           = '<%= @config[:psql_database][:password] %>'
+    database.additional_options = []
   end
   <% end %>
 
