@@ -24,8 +24,8 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   end
   
   store_with S3 do |s3|
-    s3.access_key_id      = '<%= @config[:s3][:aws_access_key] %>'
-    s3.secret_access_key  = '<%= @config[:s3][:aws_secret_key] %>'
+    s3.access_key_id      = '<%= @config[:s3][:aws_access_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/access_key").gsub(/\\n/, "") %>'
+    s3.secret_access_key  = '<%= @config[:s3][:aws_secret_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/secret_key").gsub(/\\n/, "") %>'
     s3.region             = '<%= @config[:s3][:bucket_region] %>'
     s3.bucket             = '<%= @config[:s3][:bucket_name] %>'
     s3.keep               = '<%= @config[:s3][:keep] %>'

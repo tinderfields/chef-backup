@@ -13,8 +13,8 @@ default[:backup][:psql_database][:password] = 'admin_password'
 default[:backup][:psql_database][:databases] = ['test_database', 'test_db2']
 
 
-default[:backup][:s3][:aws_access_key] = File.read("/home/#{default[:backup][:backup_user]}/.aws/access_key").gsub(/\\n/, "")
-default[:backup][:s3][:aws_secret_key] = File.read("/home/#{default[:backup][:backup_user]}/.aws/secret_key").gsub(/\\n/, "")
+default[:backup][:s3][:aws_access_key] = nil
+default[:backup][:s3][:aws_secret_key] = nil
 default[:backup][:s3][:bucket_region] = 'us-east-1'
 
 
