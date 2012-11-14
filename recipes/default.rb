@@ -56,5 +56,9 @@ template "/etc/logrotate.d/whenever_log" do
   not_if { File.exists? "/etc/logrotate.d/whenever_log" }
 end
 
-
-
+execute "whenever" do
+  user node[:backup][:backup_user]
+  command "whenever --update-crontab"
+  cwd "/home/#{node[:backup][:backup_user]}/Backup"
+  action :run
+end
