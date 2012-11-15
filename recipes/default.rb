@@ -19,14 +19,19 @@ package "libxml-dev" do
   action :install
 end
 
-['backup', 's3sync', 'fog', 'mail', 'whenever', 'popen4'].each do |gem_name|
+['backup', 's3sync', ['fog', '~> 1.4.0'], 'mail', 'whenever', 'popen4'].each do |gem|
+  gem_name = [gem].flatten[0]
+  gem_version = [gem].flatten[1]
+  
   if node[:backup][:rvm]
     rvm_gem gem_name do
       ruby_string node[:rvm][:default_ruby]
+      version gem_version if gem_version
       action :install
     end
   else
     gem_package gem_name do
+      version gem_version if gem_version
       action :install
     end
   end
