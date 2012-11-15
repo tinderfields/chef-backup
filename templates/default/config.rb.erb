@@ -1,7 +1,7 @@
 Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   
-  <% @config[:s3][:aws_access_key] ||= File.read("/home/#{node[:backup][:backup_user]}/.aws/access_key").strip %>
-  <% @config[:s3][:aws_secret_key] ||= File.read("/home/#{node[:backup][:backup_user]}/.aws/secret_key").strip %>
+  <% aws_access_key = @config[:s3][:aws_access_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/access_key").strip %>
+  <% aws_secret_key = @config[:s3][:aws_secret_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/secret_key").strip %>
 
   <% @config[:mysql_database][:databases].each do |database| %>
   database MySQL do |database|
@@ -26,8 +26,8 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   end
   
   store_with S3 do |s3|
-    s3.access_key_id      = '<%= @config[:s3][:aws_access_key] %>'
-    s3.secret_access_key  = '<%= @config[:s3][:aws_secret_key] %>'
+    s3.access_key_id      = '<%= aws_access_key %>'
+    s3.secret_access_key  = '<%= aws_secret_key %>'
     s3.region             = '<%= @config[:s3][:bucket_region] %>'
     s3.bucket             = '<%= @config[:s3][:bucket_name] %>'
     s3.keep               = '<%= @config[:s3][:keep] %>'
@@ -35,8 +35,8 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
 
   
   sync_with S3 do |s3|
-    s3.access_key_id     = "<%= @config[:s3][:aws_access_key] %>"
-    s3.secret_access_key = "<%= @config[:s3][:aws_secret_key] %>"
+    s3.access_key_id     = "<%= aws_access_key %>"
+    s3.secret_access_key = "<%= aws_secret_key %>"
     s3.bucket            = "<%= @config[:s3][:bucket_name] %>"
     s3.path              = "<%= @config[:s3][:sync_path] %>"
     s3.mirror            = true
