@@ -13,7 +13,7 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   <% end %>
 
   <% @config[:psql_database][:databases].each do |database| %>
-  database MySQL do |database|
+  database PostgreSQL do |database|
     database.name               = '<%= database %>'
     database.username           = '<%= @config[:psql_database][:username] %>'
     database.password           = '<%= @config[:psql_database][:password] %>'
