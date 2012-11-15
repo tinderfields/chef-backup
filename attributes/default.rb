@@ -37,3 +37,5 @@ default[:backup][:rvm] = false
 
 default[:backup][:time][:every] = '12.hours'
 default[:backup][:time][:at] = nil
+
+default[:backup][:archives] = []

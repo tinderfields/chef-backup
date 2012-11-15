@@ -20,7 +20,16 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     database.additional_options = []
   end
   <% end %>
-
+  
+  <% @config[:archives].each do |archive| %>
+    archive '<%= archive[0] %>' do |archive|
+    <% [archive[1]].flatten.each do |folder| %>
+      archive.add     '<%= folder %>'
+    <% end %>
+    # archive.exclude '/var/apps/my_sample_app/logs/other/exclude-this.log'
+    end
+  <% end %>
+  
   compress_with Gzip do |compression|
     compression.best = true
   end
@@ -33,7 +42,7 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     s3.keep               = '<%= @config[:s3][:keep] %>'
   end
 
-  
+  <% unless @config[:s3][:sync_directories].empty? %>
   sync_with S3 do |s3|
     s3.access_key_id     = "<%= aws_access_key %>"
     s3.secret_access_key = "<%= aws_secret_key %>"
@@ -47,6 +56,7 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
       <% end %>
     end
   end
+  <% end %>
   
 
   notify_by Mail do |mail|
