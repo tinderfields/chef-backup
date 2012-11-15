@@ -32,3 +32,5 @@ default[:backup][:mail][:on_failure] = true
 default[:backup][:mail][:from_address] = "backup@test.com"
 default[:backup][:mail][:to_address] = "youremail@test.com"
 default[:backup][:mail][:domain] = "domain.com"
+
+default[:backup][:rvm] = false
