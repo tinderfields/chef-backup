@@ -19,7 +19,7 @@ package "libxml-dev" do
   action :install
 end
 
-['backup', 's3sync', ['fog', '~> 1.4.0'], 'mail', 'whenever', 'popen4'].each do |gem|
+[['backup', '~> 3.0.25'], ['fog', '~> 1.4.0'], ['parallel', '~> 0.5.12'], ['mail', '~> 2.4.0'], 'whenever'].each do |gem|
   gem_name = [gem].flatten[0]
   gem_version = [gem].flatten[1]
   
