@@ -45,7 +45,6 @@ template "/home/#{node[:backup][:backup_user]}/#{backup_dir}/config.rb" do
   owner node[:backup][:backup_user]
   source "config.rb.erb"
   variables(:config => node[:backup])
-  not_if { File.exists?("/home/#{node[:backup][:backup_user]}/#{backup_dir}/config.rb")}
 end
 
 
@@ -54,14 +53,12 @@ template "/home/#{node[:backup][:backup_user]}/#{backup_dir}/config/schedule.rb"
   owner node[:backup][:backup_user]
   source "schedule.rb.erb"
   variables(:config => node[:backup])
-  not_if { File.exists?("/home/#{node[:backup][:backup_user]}/#{backup_dir}/config/schedule.rb")}
 end
 
 template "/etc/logrotate.d/whenever_log" do
   owner "root"
   source "logrotate.erb"
   variables(:backup_path => "/home/#{node[:backup][:backup_user]}/#{backup_dir}")
-  not_if { File.exists? "/etc/logrotate.d/whenever_log" }
 end
 
 execute "whenever" do
