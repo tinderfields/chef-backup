@@ -1,5 +1,5 @@
 set :output, "#{path}/log/cron.log"
 
-every 12.hours do
+every <%= @config[:time][:every] %><%= ", :at => '#{@config[:time][:at]}'" if @config[:time][:at] %> do
   command "backup perform --trigger <%= @config[:name] %>"
 end

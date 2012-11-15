@@ -34,3 +34,6 @@ default[:backup][:mail][:to_address] = "youremail@test.com"
 default[:backup][:mail][:domain] = "domain.com"
 
 default[:backup][:rvm] = false
+
+default[:backup][:time][:every] = '12.hours'
+default[:backup][:time][:at] = nil
