@@ -32,7 +32,7 @@ end
   end
 end
 
-backup_dir = 'backup'
+backup_dir = 'Backup'
 
 ["#{backup_dir}", "#{backup_dir}/config", "#{backup_dir}/log"].each do |dir|
   execute "mkdir /home/#{node[:backup][:backup_user]}/#{dir}" do
