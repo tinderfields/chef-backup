@@ -2,7 +2,7 @@ default[:backup][:backup_user] = 'deploy'
 
 default[:backup][:name] = "server_backup"
 default[:backup][:description] = "a chef generated server backup"
-
+default[:backup][:chunk_size] = 4000
 
 default[:backup][:mysql_database][:username] = 'admin_user'
 default[:backup][:mysql_database][:password] = 'admin_password'
@@ -37,5 +37,3 @@ default[:backup][:rvm] = false
 
 default[:backup][:time][:every] = '12.hours'
 default[:backup][:time][:at] = nil
-
-default[:backup][:archives] = []

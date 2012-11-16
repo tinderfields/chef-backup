@@ -1,7 +1,8 @@
+<% aws_access_key = @config[:s3][:aws_access_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/access_key").strip %>
+<% aws_secret_key = @config[:s3][:aws_secret_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/secret_key").strip %>
 Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
-  
-  <% aws_access_key = @config[:s3][:aws_access_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/access_key").strip %>
-  <% aws_secret_key = @config[:s3][:aws_secret_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/secret_key").strip %>
+
+  split_into_chunks_of <%= @config[:chunk_size] %>
 
   <% @config[:mysql_database][:databases].each do |database| %>
   database MySQL do |database|
