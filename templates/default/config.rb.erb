@@ -59,13 +59,14 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   end
   <% end %>
   
-
+  
   notify_by Mail do |mail|
     mail.on_success           = <%= @config[:mail][:on_success] %>
     mail.on_failure           = <%= @config[:mail][:on_failure] %>
     mail.from                 = '<%= @config[:mail][:from_address] %>'
     mail.to                   = '<%= @config[:mail][:to_address] %>'
     mail.domain               = '<%= @config[:mail][:domain] %>'
+    mail.delivery_method      = '<%= @config[:mail][:delivery_method] %>'
   end
 
 
