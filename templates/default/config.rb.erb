@@ -32,7 +32,7 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   <% end %>
   
   compress_with Gzip do |compression|
-    compression.best = true
+    compression.level = 9
   end
   
   store_with S3 do |s3|
