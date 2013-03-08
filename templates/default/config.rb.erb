@@ -27,6 +27,7 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     <% [archive[1]].flatten.each do |folder| %>
       archive.add     '<%= folder %>'
     <% end %>
+    archive.tar_options '--warning=no-file-changed'
     # archive.exclude '/var/apps/my_sample_app/logs/other/exclude-this.log'
     end
   <% end %>
