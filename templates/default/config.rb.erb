@@ -5,7 +5,7 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   split_into_chunks_of <%= @config[:chunk_size] %>
 
   <% @config[:mysql_database][:databases].each do |database| %>
-  database MySQL do |database|
+  database MySQL, '<%= database %>' do |database|
     database.name               = '<%= database %>'
     database.username           = '<%= @config[:mysql_database][:username] %>'
     database.password           = '<%= @config[:mysql_database][:password] %>'
@@ -14,10 +14,13 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
   <% end %>
 
   <% @config[:psql_database][:databases].each do |database| %>
-  database PostgreSQL do |database|
+  database PostgreSQL, '<%= database %>' do |database|
     database.name               = '<%= database %>'
     database.username           = '<%= @config[:psql_database][:username] %>'
     database.password           = '<%= @config[:psql_database][:password] %>'
+    <% if @config[:psql_database][:sudo_user] %>
+      database.sudo_user          = '<%= @config[:psql_database][:sudo_user] %>'
+    <% end %>
     database.additional_options = []
   end
   <% end %>
