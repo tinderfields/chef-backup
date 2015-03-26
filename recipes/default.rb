@@ -21,10 +21,10 @@ end
 
 # Removed when upgraded to 3.9
 # ['fog', '~> 1.9.0'], ['parallel', '~> 0.6.0'], ['mail', '~> 2.5.0'], ['excon', '~> 0.17.0'], 'whenever', ['net-ssh', '<= 2.5.2']
-[['backup', '~> 3.9']].each do |gem|
+[['backup', '~> 3.9', 'whenever']].each do |gem|
   gem_name = [gem].flatten[0]
   gem_version = [gem].flatten[1]
-  
+
   if node[:backup][:rvm]
     rvm_gem gem_name do
       ruby_string node[:rvm][:default_ruby]
