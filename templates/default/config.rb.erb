@@ -1,9 +1,12 @@
-<% aws_access_key = @config[:s3][:aws_access_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/access_key").strip %>
-<% aws_secret_key = @config[:s3][:aws_secret_key] || File.read("/home/#{node[:backup][:backup_user]}/.aws/secret_key").strip %>
+<% @configs.each do |config| %>
+<% @config = config %>
+<% aws_access_key = @config[:s3][:aws_access_key] || File.read("/home/#{@backup_user}/.aws/access_key").strip %>
+<% aws_secret_key = @config[:s3][:aws_secret_key] || File.read("/home/#{@backup_user}/.aws/secret_key").strip %>
 Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
 
-  split_into_chunks_of <%= @config[:chunk_size] %>
+  split_into_chunks_of 4000
 
+  <% if @config[:mysql_database] %>
   <% @config[:mysql_database][:databases].each do |database| %>
   database MySQL, '<%= database %>' do |database|
     database.name               = '<%= database %>'
@@ -12,7 +15,9 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     database.additional_options = ['--single-transaction', '--quick']
   end
   <% end %>
+  <% end %>
 
+  <% if @config[:psql_database] %>
   <% @config[:psql_database][:databases].each do |database| %>
   database PostgreSQL, '<%= database %>' do |database|
     database.name               = '<%= database %>'
@@ -24,21 +29,28 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     database.additional_options = []
   end
   <% end %>
-  
+  <% end %>
+
   <% @config[:archives].each do |archive| %>
     archive '<%= archive[0] %>' do |archive|
-    <% [archive[1]].flatten.each do |folder| %>
-      archive.add     '<%= folder %>'
+    <% archive[1][:add].each do |folder| %>
+      archive.add '<%= folder %>'
     <% end %>
+
+    <% if archive[1][:exclude] %>
+    <% archive[1][:exclude].each do |folder| %>
+      archive.exclude '<%= folder %>'
+    <% end %>
+    <% end %>
+
     archive.tar_options '--warning=no-file-changed'
-    # archive.exclude '/var/apps/my_sample_app/logs/other/exclude-this.log'
     end
   <% end %>
-  
+
   compress_with Gzip do |compression|
     compression.level = 9
   end
-  
+
   store_with S3 do |s3|
     s3.access_key_id      = '<%= aws_access_key %>'
     s3.secret_access_key  = '<%= aws_secret_key %>'
@@ -62,8 +74,7 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     end
   end
   <% end %>
-  
-  
+
   notify_by Mail do |mail|
     mail.on_success           = <%= @config[:mail][:on_success] %>
     mail.on_failure           = <%= @config[:mail][:on_failure] %>
@@ -73,5 +84,6 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     mail.delivery_method      = '<%= @config[:mail][:delivery_method] %>'
   end
 
-
 end
+
+<% end %>

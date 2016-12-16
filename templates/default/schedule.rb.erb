@@ -1,5 +1,8 @@
 set :output, "#{path}/log/cron.log"
 
+<% @configs.each do |config| %>
+<% @config = config %>
 every '<%= @config[:time][:every] %>'<%= ", :at => '#{@config[:time][:at]}'" if @config[:time][:at] %> do
   command "backup perform --trigger <%= @config[:name] %>"
 end
+<% end %>

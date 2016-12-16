@@ -51,15 +51,14 @@ end
 template "/home/#{node[:backup][:backup_user]}/#{backup_dir}/config.rb" do
   owner node[:backup][:backup_user]
   source "config.rb.erb"
-  variables(:config => node[:backup])
+  variables(:configs => node[:backup][:models], :backup_user => node[:backup][:backup_user])
 end
-
 
 # Whenever config setup.
 template "/home/#{node[:backup][:backup_user]}/#{backup_dir}/config/schedule.rb" do
   owner node[:backup][:backup_user]
   source "schedule.rb.erb"
-  variables(:config => node[:backup])
+  variables(:configs => node[:backup][:models])
 end
 
 template "/etc/logrotate.d/whenever_log" do
