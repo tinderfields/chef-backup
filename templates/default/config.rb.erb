@@ -80,8 +80,13 @@ Backup::Model.new(:<%= @config[:name] %>, '<%= @config[:description] %>') do
     mail.on_failure           = <%= @config[:mail][:on_failure] %>
     mail.from                 = '<%= @config[:mail][:from_address] %>'
     mail.to                   = '<%= @config[:mail][:to_address] %>'
-    mail.domain               = '<%= @config[:mail][:domain] %>'
     mail.delivery_method      = '<%= @config[:mail][:delivery_method] %>'
+    mail.address              = '<%= @config[:mail][:address] %>'
+    mail.port                 = '<%= @config[:mail][:port] %>'
+    mail.user_name            = '<%= @config[:mail][:user_name] %>'
+    mail.password             = '<%= @config[:mail][:password] %>'
+    mail.authentication       = '<%= @config[:mail][:authentication] %>'
+    mail.encryption           = '<%= @config[:mail][:encryption] %>'
   end
 
 end
